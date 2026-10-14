@@ -7,6 +7,7 @@ from database import engine, get_db
 import models
 import schemas
 from fastapi import Depends, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 # Cria as tabelas no arquivo SQLite automaticamente ao iniciar
@@ -14,6 +15,13 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="API Gerenciador de Currículos", version="1.0.0")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # mudar para url exata do front
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 @app.get("/")
 def read_root():
