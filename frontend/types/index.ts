@@ -77,3 +77,18 @@ export interface Language {
     language: string
     level: string
 }
+
+export interface Resume {
+    id?: number
+    aimed_position: string
+    title: string
+    summary_id: number
+    experiences: ItemAssociation[]
+    projects: ItemAssociation[]
+    user_id: number
+}
+
+export interface ItemAssociation {
+    item_id: number
+    order: number
+}

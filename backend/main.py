@@ -344,6 +344,7 @@ def create_resume(resume_data: schemas.ResumeCreate, db: Session = Depends(get_d
         user_id=resume_data.user_id,
         title=resume_data.title,
         summary_id=resume_data.summary_id,
+        aimed_position=resume_data.aimed_position
     )
     db.add(db_resume)
     db.commit()
@@ -391,5 +392,5 @@ def get_resume(resume_id: int, db: Session = Depends(get_db)):
         "user": resume.user,
         "summary": resume.summary,
         "projects": [assoc.project for assoc in projects_sorted],
-        "experiences": [assoc.experiences for assoc in experiences_sorted],
+        "experiences": [assoc.experience for assoc in experiences_sorted],
     }
