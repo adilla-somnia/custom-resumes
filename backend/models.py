@@ -23,6 +23,7 @@ class SummaryModel(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     summary = Column(String, nullable=False)
+    title = Column(String, nullable=False)
 
 
 class ExperienceModel(Base):

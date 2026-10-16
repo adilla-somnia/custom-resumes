@@ -27,6 +27,7 @@ export interface Experience {
 
 
 export interface User {
+    id: number;
     full_name: string
     email: string
     phone: string
@@ -39,11 +40,14 @@ export interface User {
 
 
 export interface Summary {
-    summary: string
+    id: number,
+    summary: string,
+    title: string
 }
 
 
 export interface Education {
+    id: number
     institution: string
     inst_initials ?: string
     degree: string
@@ -53,6 +57,7 @@ export interface Education {
 }
 
 export interface Certificate {
+    id: number
     institution: string
     title: string
     kind: string
@@ -62,11 +67,13 @@ export interface Certificate {
 }
 
 export interface Skill {
+    id: number
     category: string
     items: string
 }
 
 export interface Language {
+    id: number
     language: string
     level: string
 }

@@ -50,7 +50,7 @@ export const deleteExperience = async (id: number) => {
 };
 
 // CERTIFICATES
-export const getCertificate = async () => {
+export const getCertificates = async () => {
   const response = await api.get<Certificate[]>('/certificates/');
   return response.data;
 };
@@ -70,7 +70,7 @@ export const deleteCertificate = async (id: number) => {
 };
 
 // USERS
-export const getUser = async () => {
+export const getUsers = async () => {
   const response = await api.get<User[]>('/users/');
   return response.data;
 };
@@ -91,7 +91,7 @@ export const deleteUser = async (id: number) => {
 
 // EDUCATIONS
 
-export const getEducation = async () => {
+export const getEducations = async () => {
   const response = await api.get<Education[]>('/educations/');
   return response.data;
 };
@@ -111,7 +111,7 @@ export const deleteEducation = async (id: number) => {
 };
 
 // SKILLS
-export const getSkill = async () => {
+export const getSkills = async () => {
   const response = await api.get<Skill[]>('/skills/');
   return response.data;
 };
@@ -131,7 +131,7 @@ export const deleteSkill = async (id: number) => {
 };
 
 // LANGUAGES
-export const getLanguage = async () => {
+export const getLanguages = async () => {
   const response = await api.get<Language[]>('/languages/');
   return response.data;
 };
@@ -151,7 +151,7 @@ export const deleteLanguage = async (id: number) => {
 };
 
 // SUMMARIES
-export const getSummary = async () => {
+export const getSummaries = async () => {
   const response = await api.get<Summary[]>('/summaries/');
   return response.data;
 };

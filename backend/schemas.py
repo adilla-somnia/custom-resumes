@@ -21,6 +21,7 @@ class UserCreate(BaseModel):
 
 class SummaryCreate(BaseModel):
     summary: str
+    title: str
 
 
 class ExperienceCreate(BaseModel):
@@ -114,9 +115,8 @@ class UserResponse(UserCreate):
         from_attributes = True
 
 
-class SummaryResponse(BaseModel):
+class SummaryResponse(SummaryCreate):
     id: int
-    summary: str
 
     class Config:
         from_attributes = True
@@ -199,6 +199,7 @@ class UserUpdate(BaseModel):
 
 class SummaryUpdate(BaseModel):
     summary: Optional[str] = None
+    title: Optional[str] = None
 
 
 class ExperienceUpdate(BaseModel):

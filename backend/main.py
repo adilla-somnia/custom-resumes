@@ -248,7 +248,7 @@ def update_summary(
         models.SummaryModel,
         summary_id,
         summary_data.model_dump(exclude_unset=True),
-        ["summary"],
+        ["summary", 'title'],
     )
 
 

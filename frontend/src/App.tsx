@@ -13,9 +13,6 @@ export default function App() {
             <h1 className="font-bold text-lg text-indigo-700 shadow-amber-50 shadow-2xl">Gerenciador de Currículos</h1>
           </Link>
           <div className="flex gap-4">
-            <Link to="/projects" className="text-white hover:text-indigo-600 font-medium transition-colors">
-              Gerenciar Projetos
-            </Link>
             <Link to="/resumes" className="text-indigo-600 hover:bg-indigo-50 px-3 py-1.5 rounded-lg font-medium transition-colors">
               Montar Currículo
             </Link>
@@ -25,7 +22,6 @@ export default function App() {
         {/* Área onde as páginas vão carregar de acordo com a URL */}
         <main className="p-8">
           <Routes>
-            <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/resumes" element={<ResumeBuilderPage />} />
             <Route path="/" element={<Home />} /> {/* Página padrão */}
           </Routes>

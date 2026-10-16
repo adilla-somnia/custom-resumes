@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Project } from '../../types';
+import type { Project } from '../../types';
 
 interface ProjectFormProps {
   initialData?: Project | null;
@@ -45,7 +45,7 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({ initialData, onSubmit,
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
     // Limpa campos vazios opcionais se preferir, ou manda direto
     onSubmit(formData);
