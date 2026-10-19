@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import ResumeBuilderPage from './pages/ResumeBuilderPage';
 import Home from './pages/Home';
 import BuildResumePage from './pages/BuildResumePage';
+import ResumesPage from './pages/ResumesPage';
 
 export default function App() {
   return (
@@ -25,7 +25,7 @@ export default function App() {
         {/* Área onde as páginas vão carregar de acordo com a URL */}
         <main className="p-4">
           <Routes>
-            <Route path="/resumes" element={<ResumeBuilderPage />} />
+            <Route path="/resumes" element={<ResumesPage />} />
             <Route path="/build-resume" element={<BuildResumePage />} />
             <Route path="/" element={<Home />} /> {/* Página padrão */}
           </Routes>

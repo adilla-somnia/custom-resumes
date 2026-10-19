@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Certificate, Education, Experience, Language, Project, Resume, Skill, Summary, User } from '../types';
+import type { Certificate, Education, Experience, FullResume, Language, Project, Resume, Skill, SmallResume, Summary, User } from '../types';
 
 export const api = axios.create({
   baseURL: 'http://localhost:8000',
@@ -172,11 +172,17 @@ export const deleteSummary = async (id: number) => {
 
 // PROJECTS
 export const getResumes = async () => {
-  const response = await api.get<Resume[]>('/resumes/');
+  const response = await api.get<SmallResume[]>('/resumes');
+  return response.data;
+};
+
+// PROJECTS
+export const getResume = async ({id}: {id: number}) => {
+  const response = await api.get<FullResume>(`/resumes/${id}`);
   return response.data;
 };
 
 export const createResume = async (data: Omit<Resume, 'id'>) => {
-  const response = await api.post<Resume>('/resumes/', data);
+  const response = await api.post<Resume>('/resumes', data);
   return response.data;
 };

@@ -88,6 +88,28 @@ export interface Resume {
     user_id: number
 }
 
+export interface FullResume {
+    id?: number
+    aimed_position: string
+    title: string
+    summary_id: number
+    experiences: Experience[]
+    projects: Project[]
+    user_id: number
+    user: User
+    summary: Summary
+    created_at: string
+}
+
+export interface SmallResume {
+    id: number,
+    aimed_position: string
+    title: string
+    summary_id: number
+    user_id: number
+    created_at: string
+}
+
 export interface ItemAssociation {
     item_id: number
     order: number

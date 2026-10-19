@@ -372,6 +372,9 @@ def create_resume(resume_data: schemas.ResumeCreate, db: Session = Depends(get_d
         "resume_id": db_resume.id,
     }
 
+@app.get('/resumes')
+def get_resumes(db: Session = Depends(get_db)):
+    return db.query(models.ResumeModel).all()
 
 @app.get("/resumes/{resume_id}")
 def get_resume(resume_id: int, db: Session = Depends(get_db)):
@@ -388,6 +391,7 @@ def get_resume(resume_id: int, db: Session = Depends(get_db)):
     return {
         "id": resume.id,
         "title": resume.title,
+        "aimed_position": resume.aimed_position,
         "created_at": resume.created_at,
         "user": resume.user,
         "summary": resume.summary,
