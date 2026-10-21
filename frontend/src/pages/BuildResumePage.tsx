@@ -16,7 +16,7 @@ import {
   verticalListSortingStrategy,
   useSortable,
 } from '@dnd-kit/sortable';
-import { GripVertical } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUp, Expand, GripVertical, MoreHorizontal } from "lucide-react";
 import { CSS } from "@dnd-kit/utilities";
 import { createResume, getExperiences, getProjects, getSummaries, getUsers } from "../../services/api";
 
@@ -131,6 +131,8 @@ export default function BuildResumePage() {
     const [projData, setProjData] = useState<Project[]>([]);
     const [userData, setUserData] = useState<User[]>([]);
     const [sumData, setSumData] = useState<Summary[]>([]);
+
+    const [expand, setExpand] = useState("");
 
     const [ chosenPerson, setChosenPerson] = useState<User | null>(null);
     const [ chosenExperiences, setChosenExperiences] = useState<Experience[]>([]);
@@ -273,15 +275,19 @@ export default function BuildResumePage() {
 
     return (
         <div className="p-1 rounded gap-2 flex flex-col">
-            <button onClick={handleSaveOrder} className="p-1 bg-white rounded">
+            <button onClick={handleSaveOrder} className="p-2 text-black self-end font-semibold bg-white rounded cursor-pointer hover:bg-gray-300 transition duration-200">
                 Salvar
             </button>
             <div className="flex flex-row gap-2 h-300 justify-between">
-                <div className="flex-1 flex flex-col gap-5 p-2 bg-blue-900">
-                    <ChooseSection onRemove={removePerson} onChoose={selectPerson} users={userData} title="Escolher Pessoa" />
-                    <ChooseSectionSummary onRemove={removeSumary} onChoose={selectSummary} summaries={sumData} title="Escolher Resumo" />
-                    <ChooseSectionExperiences onRemove={removeExperience} onChoose={addExperienceToList} experiences={expData} title="Escolher Experiências" />
-                    <ChooseSectionProjects onRemove={removeProject} onChoose={addProjectToList} projects={projData} title="Escolher Projetos" />
+                <div className="flex-1 flex flex-col gap-3 p-2">
+                        <Expander title="Pessoa" visible={expand !== 'Pessoa'} onPress={() => setExpand('Pessoa')} />
+                    <ChooseSection visible={expand === 'Pessoa'} onRemove={removePerson} onChoose={selectPerson} onLess={() => setExpand('')} users={userData} title="Escolher Pessoa" />
+                        <Expander title="Resumo" visible={expand !== 'Resumo'} onPress={() => setExpand('Resumo')} />
+                    <ChooseSectionSummary visible={expand === 'Resumo'} onRemove={removeSumary} onChoose={selectSummary} onLess={() => setExpand('')} summaries={sumData} title="Escolher Resumo" />
+                        <Expander title="Experiência" visible={expand !== 'Experiência'} onPress={() => setExpand('Experiência')} />
+                    <ChooseSectionExperiences visible={expand === 'Experiência'} onRemove={removeExperience} onChoose={addExperienceToList} onLess={() => setExpand('')} experiences={expData} title="Escolher Experiências" />
+                        <Expander title="Projetos" visible={expand !== 'Projetos'} onPress={() => setExpand('Projetos')} />
+                    <ChooseSectionProjects visible={expand === 'Projetos'} onRemove={removeProject} onChoose={addProjectToList} onLess={() => setExpand('')} projects={projData} title="Escolher Projetos" />
                 </div>
                 <div className="flex-2 p-2 bg-green-100 flex flex-col gap-3">
                                       {/* Contexto do Dnd Kit */}
@@ -351,20 +357,25 @@ export default function BuildResumePage() {
 }
 
 function ChooseSection(
-    {title, users, onChoose, onRemove}:
-     {title: string,
+    {visible, title, users, onChoose, onRemove, onLess}:
+     {  visible: boolean,
+        title: string,
         users: User[],
         onChoose: ({user}: {user: User}) => void,
-        onRemove: ({user}: {user: User}) => void
+        onRemove: ({user}: {user: User}) => void,
+        onLess: () => void
     }) {
     const [chosen, setChosen] = useState<User | null>(null);
 
     return (
-        <div className="bg-white p-2 rounded">
-            <p className="text-black font-semibold">{title}</p>
-            <div className="bg-gray-200 p-1 h-30 overflow-y-scroll flex flex-col gap-1">
+        <div className={`bg-white p-2 flex flex-col gap-1 rounded ${visible ? '' : 'hidden'}`}>
+            <div className="flex flex-row drop-shadow shadow-gray-800 rounded justify-between bg-white p-2">
+                <p className="text-black font-semibold">{title}</p>
+                <ArrowUp className="cursor-pointer" color="black" onClick={onLess} />
+            </div>
+            <div className="bg-white p-1 h-30 overflow-y-scroll flex flex-col shadow-gray-800 drop-shadow">
                 {users.map((u: User) => {
-                    return <button onClick={() => setChosen(u)} className="text-left pl-1 cursor-pointer" key={u.id}>
+                    return <button onClick={() => setChosen(u)} className="text-gray-700 hover:bg-gray-200 border-b pt-1 border-gray-200 text-left pl-1 cursor-pointer" key={u.id}>
                         {u.full_name}
                         </button>
                 })}
@@ -389,20 +400,25 @@ function ChooseSection(
 
 
 function ChooseSectionSummary(
-    {title, summaries, onChoose, onRemove}:
-     {title: string,
+    {visible, title, summaries, onChoose, onRemove, onLess}:
+     {  visible: boolean,
+        title: string,
         summaries: Summary[],
         onChoose: ({summary}: {summary: Summary}) => void,
         onRemove: ({summary}: {summary: Summary}) => void
+        onLess: () => void
     }) {
-    const [chosen, setChosen] = useState<Summary>(null);
+    const [chosen, setChosen] = useState<Summary | null>(null);
 
     return (
-        <div className="bg-white p-2 rounded">
-            <p className="text-black font-semibold">{title}</p>
-            <div className="bg-gray-200 p-1 h-30 overflow-y-scroll flex flex-col gap-1">
+        <div className={`bg-white p-2 flex flex-col gap-1 rounded ${visible ? '' : 'hidden'}`}>
+            <div className="flex flex-row drop-shadow shadow-gray-800 rounded justify-between bg-white p-2">
+                <p className="text-black font-semibold">{title}</p>
+                <ArrowUp className="cursor-pointer" color="black" onClick={onLess} />
+            </div>
+            <div className="bg-white drop-shadow shadow-gray-800 p-1 h-30 overflow-y-scroll flex flex-col gap-1">
                 {summaries.map((u: Summary) => {
-                    return <button onClick={() => setChosen(u)} className="text-left pl-1 cursor-pointer" key={u.id}>
+                    return <button onClick={() => setChosen(u)} className="text-gray-700 hover:bg-gray-200 border-b pt-1 border-gray-200 text-left pl-1 cursor-pointer" key={u.id}>
                         {u.title}
                         </button>
                 })}
@@ -427,17 +443,22 @@ function ChooseSectionSummary(
 
 
 function ChooseSectionExperiences(
-    {title, experiences, onChoose, onRemove}:
-     {title: string,
+    {visible, title, experiences, onChoose, onRemove, onLess}:
+     {  visible: boolean
+        title: string,
         experiences: Experience[],
         onChoose: ({exp}: {exp: Experience}) => void,
         onRemove: ({exp}: {exp: Experience}) => void
+        onLess: () => void
     }) {
     const [chosen, setChosen] = useState<Experience | null>(null);
 
     return (
-        <div className="bg-white p-2 rounded">
-            <p className="text-black font-semibold">{title}</p>
+        <div className={`bg-white p-2 rounded ${visible ? '' : 'hidden'}`}>
+            <div className="flex flex-row justify-between">
+                <p className="text-black font-semibold">{title}</p>
+                <ArrowUp className="cursor-pointer" color="black" onClick={onLess} />
+            </div>
             <div className="bg-gray-200 p-1 h-30 overflow-y-scroll flex flex-col gap-1">
                 {experiences.map((u: Experience) => {
                     return <button onClick={() => setChosen(u)} className="text-left pl-1 cursor-pointer" key={u.id}>
@@ -465,17 +486,22 @@ function ChooseSectionExperiences(
 
 
 function ChooseSectionProjects(
-    {title, projects, onChoose, onRemove}:
-     {title: string,
+    {visible, title, projects, onChoose, onRemove, onLess}:
+     {  visible: boolean
+        title: string,
         projects: Project[],
         onChoose: ({proj}: {proj: Project}) => void,
         onRemove: ({proj}: {proj: Project}) => void
+        onLess: () => void
     }) {
     const [chosen, setChosen] = useState<Project | null>(null);
 
     return (
-        <div className="bg-white p-2 rounded">
-            <p className="text-black font-semibold">{title}</p>
+        <div className={`bg-white p-2 rounded ${visible ? '' : 'hidden'}`}>
+            <div className="flex flex-row justify-between">
+                <p className="text-black font-semibold">{title}</p>
+                <ArrowUp className="cursor-pointer" color="black" onClick={onLess} />
+            </div>
             <div className="bg-gray-200 p-1 h-30 overflow-y-scroll flex flex-col gap-1">
                 {projects.map((u: Project) => {
                     return <button onClick={() => setChosen(u)} className="text-left pl-1 cursor-pointer" key={u.id}>
@@ -497,6 +523,18 @@ function ChooseSectionProjects(
             </div>
             <p>Chosen: {chosen?.id}</p>
             
+        </div>
+    )
+}
+
+
+function Expander({title, visible, onPress}: {title: string, visible: boolean, onPress: () => void}) {
+    return (
+        <div
+        onClick={onPress}
+        className={`bg-white p-2 rounded-2xl text-black flex-row justify-between hover:bg-gray-300 cursor-pointer transition duration-200 active:bg-gray-500 ${visible ? 'flex' : 'hidden'}`}>
+            <p>{title}</p>
+            <ArrowRight />
         </div>
     )
 }
